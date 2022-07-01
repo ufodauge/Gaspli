@@ -10,20 +10,15 @@ function Keyboard:update( dt )
   -- -126 ~ -1: 離上
   -- 0: 押下のち離上
   -- 1 ~ 128: 押下
+
   if love.keyboard.isDown( self.key ) then
-    self.pressedframes = self.pressedframes <= 0 and 1 or
-                             math.min( self.pressedframes + 1,
-                                       KEY_PRESSED_MAX_FRAME )
+    self.pressedframes = self.pressedframes <= 0 and 1 or math.min( self.pressedframes + 1, KEY_PRESSED_MAX_FRAME )
   else
-    self.pressedframes = self.pressedframes > 0 and 0 or
-                             math.max( self.pressedframes - 1,
-                                       KEY_PRESSED_MIN_FRAME )
+    self.pressedframes = self.pressedframes > 0 and 0 or math.max( self.pressedframes - 1, KEY_PRESSED_MIN_FRAME )
   end
 
   -- 前提キーがあるならその押下判定を、ないなら無条件で true
-  local premisekeyCondition = self.premisekey and
-                                  love.keyboard.isDown( self.premisekey ) or
-                                  true
+  local premisekeyCondition = self.premisekey and love.keyboard.isDown( self.premisekey ) or true
 
   if premisekeyCondition then
     self.func( dt, self.pressedframes )
