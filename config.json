@@ -1,0 +1,44 @@
+{
+    "mapData": [
+        {
+            "terrainImage": "asset/mapdata/testmap.png",
+            "backgroudImage": "asset/mapdata/testmapbg.png",
+            "textureImage": "asset/mapdata/testmaptexture.png",
+            "player": {
+                "x": 88,
+                "y": 484
+            },
+            "solidSize": 44,
+            "bound": {
+                "left": 44,
+                "right": 8800,
+                "top": 44,
+                "bottom": 644
+            }
+        }
+    ],
+    "player": {
+        "maxSpeed": 3,
+        "maxSpeedDash": 7,
+        "maxSpeedVert": 12,
+        "accel": 0.9,
+        "jumpforce": 8,
+        "jumpframe": 22,
+        "sprite": {
+            "image": "asset/player/player.png",
+            "width": 44,
+            "height": 44,
+            "frames": {
+                "idle": {
+                    "x": 0,
+                    "y": 0,
+                    "w": 44,
+                    "h": 44
+                }
+            }
+        }
+    },
+    "system": {
+        "expectFPS": 60
+    }
+}
