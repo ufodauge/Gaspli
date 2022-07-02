@@ -95,6 +95,11 @@ function Debug:draw()
   love.graphics.setFont( DEBUG_FONT )
   self:printDebugMenu( DEBUG_MENU_X, DEBUG_MENU_Y )
   self:printDebugInfo( DEBUG_INFO_X, DEBUG_INFO_Y )
+
+  -- マウスカーソルを表示する
+  local mx, my = love.mouse.getPosition()
+  love.graphics.setColor( 1, 1, 1, 1 )
+  love.graphics.circle( 'fill', mx, my, 5 )
 end
 
 -- デバッグメニューの有効・無効状態の取得

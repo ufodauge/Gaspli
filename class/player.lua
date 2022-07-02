@@ -77,6 +77,8 @@ function Player:setY( y )
   self.actor:setY( y )
 end
 
+local nidotomentesurumonkaframe = 0
+
 function Player:new( x, y, w, h )
   local obj = {}
   obj.x = x
@@ -93,6 +95,12 @@ function Player:new( x, y, w, h )
   obj.direction = 1
 
   local keyA = Keyboard:new( 'a', function( dt, f )
+    local click = love.mouse.isDown( 1 )
+    local mx, my = love.mouse.getPosition()
+    if click and mx < love.graphics.getWidth() / 2 then
+      f = 1
+    end
+
     local rate = dt * data.system.expectFPS
     if f > 0 then
       if obj.vx - obj.accel * rate < -obj.maxSpeed then
@@ -112,6 +120,12 @@ function Player:new( x, y, w, h )
     end
   end )
   local keyD = Keyboard:new( 'd', function( dt, f )
+    local click = love.mouse.isDown( 1 )
+    local mx, my = love.mouse.getPosition()
+    if click and mx > love.graphics.getWidth() / 2 then
+      f = 1
+    end
+
     local rate = dt * data.system.expectFPS
     PlainDebug:setDebugInfo( tostring( obj.accel ) )
     if f > 0 then
@@ -133,6 +147,12 @@ function Player:new( x, y, w, h )
     end
   end )
   local keyK = Keyboard:new( 'k', function( dt, f )
+    local click = love.mouse.isDown( 1 )
+    local mx, my = love.mouse.getPosition()
+    if click then
+      f = 1
+    end
+
     if f > 0 then
       obj.maxSpeed = data.player.maxSpeedDash
     else
@@ -140,6 +160,19 @@ function Player:new( x, y, w, h )
     end
   end )
   local keyJ = Keyboard:new( 'j', function( dt, f )
+    local click = love.mouse.isDown( 1 )
+    local mx, my = love.mouse.getPosition()
+    if click then
+      nidotomentesurumonkaframe = nidotomentesurumonkaframe <= 0 and 1 or
+                                      math.min( nidotomentesurumonkaframe + 1,
+                                                600 )
+    else
+      nidotomentesurumonkaframe = nidotomentesurumonkaframe > 0 and 0 or
+                                      math.max( nidotomentesurumonkaframe - 1,
+                                                -600 )
+    end
+    f = nidotomentesurumonkaframe
+
     local standing = obj.actor:isStanding()
     local headbutting = obj.actor:isHeadbutting()
 
