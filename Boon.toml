@@ -7,7 +7,7 @@
 authors = "agdf"
 
 # A description of your game. Not used in all builds.
-description = "GimmickSimulator"
+description = "what"
 
 # An email to contact for support or more information. Not used
 # in all builds.
@@ -17,11 +17,11 @@ email = "hakka.ydy.sub@gmail.com"
 # or other special characters, though they can be used. On Windows,
 # this will end up as the name of the executable file.
 # Example: "My Game" and package_name="my_game" becomes "my_game.exe"
-package_name = "GimmickSimulator"
+package_name = "what"
 
 # The name of your game. This will be used when distributing the Game
 # as a zip file. On macOS, this is also used as the app file name.
-title = "GimmickSimulator"
+title = "what"
 
 # The website associated with your game. Not used in all builds.
 url = "http://www.example.com/"
@@ -64,7 +64,7 @@ ignore_list = [
 
 # List of targets to build for
 # Possible values: "love", "windows", "macos", "all"
-targets = ["windows"]
+targets = ["all"]
 
 # If this is set to true, then the default ignore list will not be
 # merged with the project specific ignore list. This allows the
