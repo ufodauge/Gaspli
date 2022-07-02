@@ -11,7 +11,7 @@ States.testMap = require 'state.testMap'
 local PlainDebug = require( 'lib.debug' ):getInstance()
 
 function love.load()
-  -- PlainDebug:Enable()
+  PlainDebug:Enable()
   -- Actor.debugmode = true
   -- Solid.debugmode = true
 

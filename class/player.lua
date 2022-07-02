@@ -32,29 +32,6 @@ end
 
 function Player:update( dt )
   self._keyManager:update( dt )
-  local touches = getTouches()
-  for i, id in ipairs( touches ) do
-    local x, y = love.touch.getPosition( id )
-
-    touching[1] = i == 1 and x > love.graphics.getWidth() / 2
-    touching[2] = i == 1 and x < love.graphics.getWidth() / 2
-    touching[3] = i == 2
-  end
-
-  for i, t in ipairs( touching ) do
-    if t then
-      touchingFrames[i] = touchingFrames[i] > 60 and touchingFrames[i] or touchingFrames[i] + 1
-    else
-      touchingFrames[i] = touchingFrames[i] < -60 and touchingFrames[i] or touchingFrames[i] - 1
-    end
-  end
-
-  if #touches > 0 then
-    self._dash( dt, 1 )
-    self._left( dt, touchingFrames[2] )
-    self._right( dt, touchingFrames[1] )
-    self._jump( dt, touchingFrames[3] )
-  end
 
   if self.vx ~= 0 then
     self.actor:moveX( self.vx, function()
@@ -192,15 +169,13 @@ function Player:new( x, y, w, h )
     local click = love.mouse.isDown( 1 )
     local mx, my = love.mouse.getPosition()
     if click and my < love.graphics.getHeight() / 2 then
-      nidotomentesurumonkaframe = nidotomentesurumonkaframe <= 0 and 1 or
-                                      math.min( nidotomentesurumonkaframe + 1,
-                                                600 )
+      nidotomentesurumonkaframe = nidotomentesurumonkaframe <= 0 and 1 or math.min( nidotomentesurumonkaframe + 1, 600 )
       f = nidotomentesurumonkaframe
     else
-      nidotomentesurumonkaframe = nidotomentesurumonkaframe > 0 and 0 or
-                                      math.max( nidotomentesurumonkaframe - 1,
-                                                -600 )
+      nidotomentesurumonkaframe = nidotomentesurumonkaframe > 0 and 0 or math.max( nidotomentesurumonkaframe - 1, -600 )
     end
+
+    PlainDebug:setDebugInfo( tostring( nidotomentesurumonkaframe ) )
 
     if ((f == 1 and standing) or (f > 1 and not standing)) and obj.jumpframe > 0 then
       obj.jumpframe = obj.jumpframe - 1
@@ -221,74 +196,6 @@ function Player:new( x, y, w, h )
 
   obj._keyManager = KeyManager:new()
   obj._keyManager:add( keyA, keyD, keyJ, keyK )
-
-  obj._left = function( dt, f )
-    local rate = dt * data.system.expectFPS
-    if f > 0 then
-      if obj.vx - obj.accel * rate < -obj.maxSpeed then
-        -- 加速しすぎる場合
-        obj.vx = -obj.maxSpeed
-      else
-        obj.vx = obj.vx - obj.accel * rate
-      end
-    else
-      if obj.vx >= 0 then
-        -- do nothing
-      elseif obj.vx + obj.accel * rate > 0 then
-        obj.vx = 0
-      else
-        obj.vx = obj.vx + obj.accel * rate
-      end
-    end
-  end
-  obj._right = function( dt, f )
-    local rate = dt * data.system.expectFPS
-    PlainDebug:setDebugInfo( tostring( obj.accel ) )
-    if f > 0 then
-      if obj.vx + obj.accel * rate > obj.maxSpeed then
-        -- 加速しすぎる場合
-        obj.vx = obj.maxSpeed
-      else
-        obj.vx = obj.vx + obj.accel * rate
-      end
-    else
-      -- 減速処理
-      if obj.vx <= 0 then
-        -- do nothing
-      elseif obj.vx - obj.accel * rate < 0 then
-        obj.vx = 0
-      else
-        obj.vx = obj.vx - obj.accel * rate
-      end
-    end
-  end
-  obj._dash = function( dt, f )
-    if f > 0 then
-      obj.maxSpeed = data.player.maxSpeedDash
-    else
-      obj.maxSpeed = data.player.maxSpeed
-    end
-  end
-  obj._jump = function( dt, f )
-    local standing = obj.actor:isStanding()
-    local headbutting = obj.actor:isHeadbutting()
-
-    if ((f == 1 and standing) or (f > 1 and not standing)) and obj.jumpframe > 0 then
-      obj.jumpframe = obj.jumpframe - 1
-      if obj.jumpframe > 0 then
-        obj.vy = -data.player.jumpforce
-      end
-      if headbutting then
-        obj.jumpframe = 0
-      end
-    elseif ((f == 1 and not standing) or (f > 1 and standing)) and obj.jumpframe <= 0 then
-      obj.jumpframe = 0
-    elseif (f <= 0 and standing) and obj.jumpframe <= 0 then
-      obj.jumpframe = data.player.jumpframe
-    elseif (f <= 0 and not standing) and obj.jumpframe > 0 then
-      obj.jumpframe = 0
-    end
-  end
 
   setmetatable( obj, { __index = Player } )
   return obj
