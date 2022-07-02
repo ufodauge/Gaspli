@@ -160,21 +160,21 @@ function Player:new( x, y, w, h )
     end
   end )
   local keyJ = Keyboard:new( 'j', function( dt, f )
+    local standing = obj.actor:isStanding()
+    local headbutting = obj.actor:isHeadbutting()
+
     local click = love.mouse.isDown( 1 )
     local mx, my = love.mouse.getPosition()
-    if click then
+    if click and my < love.graphics.getHeight() / 2 then
       nidotomentesurumonkaframe = nidotomentesurumonkaframe <= 0 and 1 or
                                       math.min( nidotomentesurumonkaframe + 1,
                                                 600 )
+      f = nidotomentesurumonkaframe
     else
       nidotomentesurumonkaframe = nidotomentesurumonkaframe > 0 and 0 or
                                       math.max( nidotomentesurumonkaframe - 1,
                                                 -600 )
     end
-    f = nidotomentesurumonkaframe
-
-    local standing = obj.actor:isStanding()
-    local headbutting = obj.actor:isHeadbutting()
 
     if ((f == 1 and standing) or (f > 1 and not standing)) and obj.jumpframe > 0 then
       obj.jumpframe = obj.jumpframe - 1

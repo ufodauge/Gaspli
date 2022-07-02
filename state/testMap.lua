@@ -89,6 +89,14 @@ function testMap:draw()
   self.player:draw()
   Camera:draw()
   Camera:detach()
+
+  love.graphics.setColor( 1, 1, 1, 1 )
+  love.graphics.print( 'tap right/left of the screen to move',
+                       love.graphics.getWidth() / 2 - 100,
+                       love.graphics.getHeight() - 20 )
+  love.graphics.print( 'tap upper of the screen to jump',
+                       love.graphics.getWidth() / 2 - 100,
+                       love.graphics.getHeight() - 40 )
 end
 
 function testMap:leave()
